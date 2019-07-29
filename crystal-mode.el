@@ -54,7 +54,7 @@
 
 (defconst crystal-block-beg-keywords
   '("class" "module" "def" "if" "unless" "case" "while" "until" "for" "begin" "do"
-    "macro" "lib" "enum" "struct" "describe" "it" "union")
+    "macro" "lib" "enum" "struct" "describe" "it" "union" "annotation")
   "Keywords at the beginning of blocks.")
 
 (defconst crystal-block-beg-re
@@ -66,7 +66,7 @@
   "Regexp to match keywords that nest without blocks.")
 
 (defconst crystal-indent-beg-re
-  (concat "^\\(\\s *" (regexp-opt '("class" "module" "def" "macro" "lib" "enum" "struct" "union"))
+  (concat "^\\(\\s *" (regexp-opt '("class" "module" "def" "macro" "lib" "enum" "struct" "union" "annotation"))
           "\\|"
           (regexp-opt '("if" "unless" "case" "while" "until" "for" "begin"))
           "\\)\\_>")
@@ -445,6 +445,7 @@ It is used when `crystal-encoding-magic-comment-style' is set to `custom'."
                ("do" stmts-rescue-stmts "end")
                ("module" stmts "end")
                ("class" stmts "end")
+	       ("annotation" stmts "end")
                ;; c-binding
                ("lib" stmts"end")
                ("struct" stmts "end")
@@ -826,7 +827,7 @@ It is used when `crystal-encoding-magic-comment-style' is set to `custom'."
 
       ((smie-rule-parent-p "def" "begin" "do" "module" "lib" "enum" "union"
                            "while" "until" "unless" "if" "then" "elsif" "else" "when"
-                           "macro" "class" "struct"
+                           "macro" "class" "struct" "annotation"
                            "{%if%}" "{%for%}" "{%elsif%}" "{%else%}" "{%unless%}" "{%begin%}"
                            "\{%if%}" "\{%for%}" "\{%elsif%}" "\{%else%}" "\{%unless%}" "\{%begin%}"
                            "rescue" "ensure" "{")
@@ -2295,6 +2296,7 @@ See `font-lock-syntax-table'.")
        (regexp-opt
         '("alias"
           "and"
+	  "annotation"
           "begin"
           "break"
           "case"
